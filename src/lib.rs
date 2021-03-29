@@ -1,3 +1,9 @@
+mod ranks;
+mod suits;
+
+pub use ranks::Ranks;
+pub use suits::Suits;
+
 #[cfg(test)]
 mod tests {
     #[test]
