@@ -27,6 +27,15 @@ impl Display for Suit {
 }
 
 impl Suit {
+  pub fn from(suit: &str) -> Option<Suit> {
+    match suit {
+      "C" => Some(Suit::CLUBS),
+      "S" => Some(Suit::SPADES),
+      "H" => Some(Suit::HEARTS),
+      "D" => Some(Suit::DIAMONDS),
+      &_ => None,
+    }
+  }
   /// Translates a suit into a humanized string
   pub fn to_string(&self) -> &str {
     match &self {

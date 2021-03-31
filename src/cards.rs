@@ -15,6 +15,12 @@ impl Display for Card {
 }
 
 impl Card {
+  pub fn new(card: &mut str) -> Card {
+    let c: Vec<&str> = card.split("");
+
+    Card { c[0], c[1] }
+  }
+
   pub fn to_string(&self) -> &str {
     !format!("{} of {}" self.rank.to_string(), self.suit.to_string())
   }

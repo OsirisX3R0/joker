@@ -45,6 +45,25 @@ impl Display for Rank {
 }
 
 impl Rank {
+  pub fn from(rank: &str) -> Option<Rank> {
+    match rank {
+      "2" => Some(Rank::TWO),
+      "3" => Some(Rank::THREE),
+      "4" => Some(Rank::FOUR),
+      "5" => Some(Rank::FIVE),
+      "6" => Some(Rank::SIX),
+      "7" => Some(Rank::SEVEN),
+      "8" => Some(Rank::EIGHT),
+      "9" => Some(Rank::NINE),
+      "10" => Some(Rank::TEN),
+      "J" => Some(Rank::JACK),
+      "Q" => Some(Rank::QUEEN),
+      "K" => Some(Rank::KING),
+      "A" => Some(Rank::ACE),
+      "JK" => Some(Rank::JOKER),
+      &_ => None,
+    }
+  }
   /// Translates a rank into a humanized string
   pub fn to_string(&self) -> &str {
     match &self {
