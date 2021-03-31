@@ -1,4 +1,5 @@
-pub enum Ranks {
+/// All possible ranks for cards
+pub enum Rank {
   TWO,
   THREE,
   FOUR,
@@ -12,4 +13,5 @@ pub enum Ranks {
   QUEEN,
   KING,
   ACE,
+  JOKER,
 }

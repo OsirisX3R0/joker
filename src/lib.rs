@@ -1,8 +1,8 @@
 mod ranks;
 mod suits;
 
-pub use ranks::Ranks;
-pub use suits::Suits;
+pub use ranks::Rank;
+pub use suits::Suit;
 
 #[cfg(test)]
 mod tests {
