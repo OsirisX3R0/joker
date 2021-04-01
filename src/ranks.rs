@@ -45,24 +45,26 @@ impl Display for Rank {
 }
 
 impl Rank {
-  pub fn from(rank: &str) -> Option<Rank> {
-    match rank {
-      "2" => Some(Rank::TWO),
-      "3" => Some(Rank::THREE),
-      "4" => Some(Rank::FOUR),
-      "5" => Some(Rank::FIVE),
-      "6" => Some(Rank::SIX),
-      "7" => Some(Rank::SEVEN),
-      "8" => Some(Rank::EIGHT),
-      "9" => Some(Rank::NINE),
-      "10" => Some(Rank::TEN),
-      "J" => Some(Rank::JACK),
-      "Q" => Some(Rank::QUEEN),
-      "K" => Some(Rank::KING),
-      "A" => Some(Rank::ACE),
-      "JK" => Some(Rank::JOKER),
-      &_ => None,
-    }
+  pub fn from(abbr: &str) -> Rank {
+    let rank = match abbr {
+      "2" => Ok(Rank::TWO),
+      "3" => Ok(Rank::THREE),
+      "4" => Ok(Rank::FOUR),
+      "5" => Ok(Rank::FIVE),
+      "6" => Ok(Rank::SIX),
+      "7" => Ok(Rank::SEVEN),
+      "8" => Ok(Rank::EIGHT),
+      "9" => Ok(Rank::NINE),
+      "10" => Ok(Rank::TEN),
+      "J" => Ok(Rank::JACK),
+      "Q" => Ok(Rank::QUEEN),
+      "K" => Ok(Rank::KING),
+      "A" => Ok(Rank::ACE),
+      "JK" => Ok(Rank::JOKER),
+      &_ => Err(format!("{} not a valid rank", abbr)),
+    };
+
+    rank.unwrap()
   }
   /// Translates a rank into a humanized string
   pub fn to_string(&self) -> &str {

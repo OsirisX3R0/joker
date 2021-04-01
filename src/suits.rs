@@ -27,14 +27,16 @@ impl Display for Suit {
 }
 
 impl Suit {
-  pub fn from(suit: &str) -> Option<Suit> {
-    match suit {
-      "C" => Some(Suit::CLUBS),
-      "S" => Some(Suit::SPADES),
-      "H" => Some(Suit::HEARTS),
-      "D" => Some(Suit::DIAMONDS),
-      &_ => None,
-    }
+  pub fn from(abbr: &str) -> Suit {
+    let suit = match abbr {
+      "C" => Ok(Suit::CLUBS),
+      "S" => Ok(Suit::SPADES),
+      "H" => Ok(Suit::HEARTS),
+      "D" => Ok(Suit::DIAMONDS),
+      &_ => Err(format!("{} not a valid suit", abbr)),
+    };
+
+    suit.unwrap()
   }
   /// Translates a suit into a humanized string
   pub fn to_string(&self) -> &str {
@@ -43,7 +45,7 @@ impl Suit {
       Suit::SPADES => "Spades",
       Suit::HEARTS => "Hearts",
       Suit::DIAMONDS => "Diamonds",
-      Suit::JOKER => "Joker",
+      &_ => "", // Suit::JOKER => "J",
     }
   }
 }
