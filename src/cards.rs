@@ -1,7 +1,7 @@
-use std::fmt::{format, Display, Formatter};
+use std::fmt::{Display, Error, Formatter};
 
-use ranks::Rank;
-use suits::Suit;
+use crate::ranks::Rank;
+use crate::suits::Suit;
 
 pub struct Card {
   rank: Rank,
@@ -9,32 +9,31 @@ pub struct Card {
 }
 
 impl Display for Card {
-  fn fmt(&self, f: &mut Formatter) -> Result {
-    write!(f, "", &self.to_string())
+  fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+    write!(f, "{}", &self.to_string())
   }
 }
 
 // TODO: Implement PartialEq
 
 impl Card {
-  pub fn new(abbr: &mut str) -> Card {
-    let card: Vec<&str> = abbr.split("");
+  pub fn from(abbr: &str) -> Card {
+    let card: Vec<&str> = abbr.split("").collect();
 
     Card {
-      rank: card[0],
-      suit: card[1],
+      rank: Rank::from(card[0]),
+      suit: Suit::from(card[1]),
     }
   }
 
-  pub fn to_string(&self) -> &str {
-    !format!("{} of {}" self.rank.to_string(), self.suit.to_string())
+  pub fn to_string(&self) -> String {
+    format!("{} of {}", &self.rank.to_string(), &self.suit.to_string())
   }
 }
 
 #[cfg(test)]
 mod card_tests {
   use super::*;
-
   #[test]
   #[should_panic]
   fn should_fail_invalid_card() {
