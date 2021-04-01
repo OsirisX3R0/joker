@@ -14,6 +14,8 @@ impl Display for Card {
   }
 }
 
+// TODO: Implement PartialEq
+
 impl Card {
   pub fn new(abbr: &mut str) -> Card {
     let card: Vec<&str> = abbr.split("");
@@ -32,13 +34,6 @@ impl Card {
 #[cfg(test)]
 mod card_tests {
   use super::*;
-
-  // #[test]
-  // fn should_create_ace_of_spades() {
-  //   let card = Card::from("AS");
-
-  //   assert_eq!
-  // }
 
   #[test]
   #[should_panic]
