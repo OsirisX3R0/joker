@@ -44,6 +44,69 @@ impl Display for Rank {
   }
 }
 
+impl PartialEq for Rank {
+  fn eq(&self, other: &Self) -> bool {
+    match self {
+      Rank::TWO => match other {
+        Rank::TWO => true,
+        &_ => false,
+      },
+      Rank::THREE => match other {
+        Rank::THREE => true,
+        &_ => false,
+      },
+      Rank::FOUR => match other {
+        Rank::FOUR => true,
+        &_ => false,
+      },
+      Rank::FIVE => match other {
+        Rank::FIVE => true,
+        &_ => false,
+      },
+      Rank::SIX => match other {
+        Rank::SIX => true,
+        &_ => false,
+      },
+      Rank::SEVEN => match other {
+        Rank::SEVEN => true,
+        &_ => false,
+      },
+      Rank::EIGHT => match other {
+        Rank::EIGHT => true,
+        &_ => false,
+      },
+      Rank::NINE => match other {
+        Rank::NINE => true,
+        &_ => false,
+      },
+      Rank::TEN => match other {
+        Rank::TEN => true,
+        &_ => false,
+      },
+      Rank::JACK => match other {
+        Rank::JACK => true,
+        &_ => false,
+      },
+      Rank::QUEEN => match other {
+        Rank::QUEEN => true,
+        &_ => false,
+      },
+      Rank::KING => match other {
+        Rank::KING => true,
+        &_ => false,
+      },
+      Rank::ACE => match other {
+        Rank::ACE => true,
+        &_ => false,
+      },
+      Rank::JOKER => match other {
+        Rank::JOKER => true,
+        &_ => false,
+      },
+    }
+  }
+}
+
 impl Rank {
   pub fn from(abbr: &str) -> Rank {
     let rank = match abbr {
@@ -84,5 +147,32 @@ impl Rank {
       Rank::ACE => "Ace",
       Rank::JOKER => "Joker",
     }
+  }
+}
+
+#[cfg(test)]
+mod rank_tests {
+  use super::*;
+
+  #[test]
+  fn should_create_two_rank() {
+    let rank = Rank::from("2");
+
+    assert_eq!(rank == Rank::TWO, true);
+  }
+
+  #[test]
+  fn should_create_queen_rank() {
+    let rank = Rank::from("Q");
+
+    assert_eq!(rank == Rank::QUEEN, true);
+  }
+
+  #[test]
+  #[should_panic]
+  fn should_fail_invalid_rank() {
+    let rank = Rank::from("X");
+
+    println!("{}", rank);
   }
 }
