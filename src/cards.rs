@@ -14,15 +14,23 @@ impl Display for Card {
   }
 }
 
-// TODO: Implement PartialEq
+impl PartialEq for Card {
+  fn eq(&self, other: &Self) -> bool {
+    self.rank == other.rank && self.suit == other.suit
+  }
+}
 
 impl Card {
   pub fn from(abbr: &str) -> Card {
     let card: Vec<&str> = abbr.split("").collect();
+    let filtered = card.iter().filter(|&&x| x != "").collect::<Vec<&&str>>();
 
+    let rank = filtered[0];
+    let suit = filtered[1];
+    // println!("{} {:?} {} {}", abbr, filtered, rank, suit);
     Card {
-      rank: Rank::from(card[0]),
-      suit: Suit::from(card[1]),
+      rank: Rank::from(rank),
+      suit: Suit::from(suit),
     }
   }
 
@@ -34,6 +42,19 @@ impl Card {
 #[cfg(test)]
 mod card_tests {
   use super::*;
+
+  #[test]
+  fn should_create_ace_of_spades() {
+    let card = Card::from("AS");
+
+    let aos = Card {
+      rank: Rank::ACE,
+      suit: Suit::SPADES,
+    };
+
+    assert_eq!(card == aos, true)
+  }
+
   #[test]
   #[should_panic]
   fn should_fail_invalid_card() {
