@@ -1,7 +1,7 @@
 use std::fmt::{Display, Error, Formatter};
 
 /// All possible suits for cards
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Suit {
   CLUBS,
   SPADES,
@@ -26,33 +26,6 @@ impl Display for Suit {
   }
 }
 
-impl PartialEq for Suit {
-  fn eq(&self, other: &Self) -> bool {
-    match self {
-      Suit::CLUBS => match other {
-        Suit::CLUBS => true,
-        &_ => false,
-      },
-      Suit::SPADES => match other {
-        Suit::SPADES => true,
-        &_ => false,
-      },
-      Suit::HEARTS => match other {
-        Suit::HEARTS => true,
-        &_ => false,
-      },
-      Suit::DIAMONDS => match other {
-        Suit::DIAMONDS => true,
-        &_ => false,
-      },
-      Suit::JOKER => match other {
-        Suit::JOKER => true,
-        &_ => false,
-      },
-    }
-  }
-}
-
 impl Suit {
   pub fn from(abbr: &str) -> Suit {
     let suit = match abbr {
@@ -61,7 +34,7 @@ impl Suit {
       "H" => Ok(Suit::HEARTS),
       "D" => Ok(Suit::DIAMONDS),
       "" => Ok(Suit::JOKER),
-      &_ => Err(format!("{} not a valid suit", abbr)),
+      &_ => Err(format!("'{}' is not a valid suit", abbr)),
     };
 
     suit.unwrap()

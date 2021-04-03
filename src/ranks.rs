@@ -1,7 +1,7 @@
 use std::fmt::{Display, Error, Formatter};
 
 /// All possible ranks for cards
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Rank {
   TWO,
   THREE,
@@ -44,69 +44,6 @@ impl Display for Rank {
   }
 }
 
-impl PartialEq for Rank {
-  fn eq(&self, other: &Self) -> bool {
-    match self {
-      Rank::TWO => match other {
-        Rank::TWO => true,
-        &_ => false,
-      },
-      Rank::THREE => match other {
-        Rank::THREE => true,
-        &_ => false,
-      },
-      Rank::FOUR => match other {
-        Rank::FOUR => true,
-        &_ => false,
-      },
-      Rank::FIVE => match other {
-        Rank::FIVE => true,
-        &_ => false,
-      },
-      Rank::SIX => match other {
-        Rank::SIX => true,
-        &_ => false,
-      },
-      Rank::SEVEN => match other {
-        Rank::SEVEN => true,
-        &_ => false,
-      },
-      Rank::EIGHT => match other {
-        Rank::EIGHT => true,
-        &_ => false,
-      },
-      Rank::NINE => match other {
-        Rank::NINE => true,
-        &_ => false,
-      },
-      Rank::TEN => match other {
-        Rank::TEN => true,
-        &_ => false,
-      },
-      Rank::JACK => match other {
-        Rank::JACK => true,
-        &_ => false,
-      },
-      Rank::QUEEN => match other {
-        Rank::QUEEN => true,
-        &_ => false,
-      },
-      Rank::KING => match other {
-        Rank::KING => true,
-        &_ => false,
-      },
-      Rank::ACE => match other {
-        Rank::ACE => true,
-        &_ => false,
-      },
-      Rank::JOKER => match other {
-        Rank::JOKER => true,
-        &_ => false,
-      },
-    }
-  }
-}
-
 impl Rank {
   pub fn from(abbr: &str) -> Rank {
     let rank = match abbr {
@@ -124,7 +61,7 @@ impl Rank {
       "K" => Ok(Rank::KING),
       "A" => Ok(Rank::ACE),
       "JK" => Ok(Rank::JOKER),
-      &_ => Err(format!("{} not a valid rank", abbr)),
+      &_ => Err(format!("'{}' is not a valid rank", abbr)),
     };
 
     rank.unwrap()
