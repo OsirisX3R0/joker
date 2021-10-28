@@ -20,24 +20,24 @@ impl Display for Suit {
         Suit::SPADES => "S",
         Suit::HEARTS => "H",
         Suit::DIAMONDS => "D",
-        _ => "", // Suit::JOKER => "J",
+        Suit::JOKER => "J",
       }
     )
   }
 }
 
 impl Suit {
-  pub fn from(abbr: &str) -> Suit {
+  pub fn from(abbr: &str) -> Result<Suit, String> {
     let suit = match abbr {
       "C" => Ok(Suit::CLUBS),
       "S" => Ok(Suit::SPADES),
       "H" => Ok(Suit::HEARTS),
       "D" => Ok(Suit::DIAMONDS),
-      "" => Ok(Suit::JOKER),
-      &_ => Err(format!("'{}' is not a valid suit", abbr)),
+      "J" => Ok(Suit::JOKER),
+      &_ => Err(format!("{} is not a valid suit", abbr)),
     };
 
-    suit.unwrap()
+    suit
   }
   /// Translates a suit into a humanized string
   pub fn to_string(&self) -> &str {
@@ -46,7 +46,7 @@ impl Suit {
       Suit::SPADES => "Spades",
       Suit::HEARTS => "Hearts",
       Suit::DIAMONDS => "Diamonds",
-      &_ => "", // Suit::JOKER => "J",
+      Suit::JOKER => "Joker",
     }
   }
 }
@@ -57,38 +57,38 @@ mod suit_tests {
 
   #[test]
   fn should_create_clubs_suit() {
-    let suit = Suit::from("C");
+    let suit = Suit::from("C").unwrap();
     assert_eq!(suit == Suit::CLUBS, true);
   }
 
   #[test]
   fn should_create_spades_suit() {
-    let suit = Suit::from("S");
+    let suit = Suit::from("S").unwrap();
     assert_eq!(suit == Suit::SPADES, true);
   }
 
   #[test]
   fn should_create_hearts_suit() {
-    let suit = Suit::from("H");
+    let suit = Suit::from("H").unwrap();
     assert_eq!(suit == Suit::HEARTS, true);
   }
 
   #[test]
   fn should_create_diamond_suit() {
-    let suit = Suit::from("D");
+    let suit = Suit::from("D").unwrap();
     assert_eq!(suit == Suit::DIAMONDS, true);
   }
 
   #[test]
   fn should_create_joker_suit() {
-    let suit = Suit::from("");
+    let suit = Suit::from("J").unwrap();
     assert_eq!(suit == Suit::JOKER, true);
   }
 
   #[test]
   #[should_panic]
   fn should_fail_invalid_suit() {
-    let suit = Suit::from("X");
+    let suit = Suit::from("X").unwrap();
     println!("{}", suit);
   }
 }

@@ -16,7 +16,6 @@ pub enum Rank {
   QUEEN,
   KING,
   ACE,
-  JOKER,
 }
 
 impl Display for Rank {
@@ -38,14 +37,13 @@ impl Display for Rank {
         Rank::QUEEN => "Q",
         Rank::KING => "K",
         Rank::ACE => "A",
-        Rank::JOKER => "JK",
       }
     )
   }
 }
 
 impl Rank {
-  pub fn from(abbr: &str) -> Rank {
+  pub fn from(abbr: &str) -> Result<Rank, String> {
     let rank = match abbr {
       "2" => Ok(Rank::TWO),
       "3" => Ok(Rank::THREE),
@@ -60,11 +58,10 @@ impl Rank {
       "Q" => Ok(Rank::QUEEN),
       "K" => Ok(Rank::KING),
       "A" => Ok(Rank::ACE),
-      "JK" => Ok(Rank::JOKER),
-      &_ => Err(format!("'{}' is not a valid rank", abbr)),
+      &_ => Err(format!("{} is not a valid rank", abbr)),
     };
 
-    rank.unwrap()
+    rank
   }
   /// Translates a rank into a humanized string
   pub fn to_string(&self) -> &str {
@@ -82,7 +79,6 @@ impl Rank {
       Rank::QUEEN => "Queen",
       Rank::KING => "King",
       Rank::ACE => "Ace",
-      Rank::JOKER => "Joker",
     }
   }
 }
@@ -93,14 +89,14 @@ mod rank_tests {
 
   #[test]
   fn should_create_two_rank() {
-    let rank = Rank::from("2");
+    let rank = Rank::from("2").unwrap();
 
     assert_eq!(rank == Rank::TWO, true);
   }
 
   #[test]
   fn should_create_queen_rank() {
-    let rank = Rank::from("Q");
+    let rank = Rank::from("Q").unwrap();
 
     assert_eq!(rank == Rank::QUEEN, true);
   }
@@ -108,7 +104,7 @@ mod rank_tests {
   #[test]
   #[should_panic]
   fn should_fail_invalid_rank() {
-    let rank = Rank::from("X");
+    let rank = Rank::from("X").unwrap();
 
     println!("{}", rank);
   }
