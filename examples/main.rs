@@ -1,7 +1,9 @@
 use joker::Card;
 
 fn main() {
-  let card = Card::from("AS");
+  let card1 = Card::from("AS");
+  let card3 = Card::from("XS");
+  let card2 = Card::from("AZ");
 
-  println!("{}", card);
+  println!("{}", card1);
 }
