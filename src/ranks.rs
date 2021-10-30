@@ -1,7 +1,7 @@
 use std::fmt::{Display, Error, Formatter};
 
 /// All possible ranks for cards
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, PartialOrd)]
 pub enum Rank {
   TWO,
   THREE,
@@ -107,5 +107,20 @@ mod rank_tests {
     let rank = Rank::from("X").unwrap();
 
     println!("{}", rank);
+  }
+
+  #[test]
+  fn should_be_less_than() {
+    let ten = Rank::from("10").unwrap();
+    let jack = Rank::from("J").unwrap();
+
+    assert_eq!(ten < jack, true)
+  }
+
+  #[test]
+  fn should_be_greater_than() {
+    let queen = Rank::from("Q").unwrap();
+    let four = Rank::from("4").unwrap();
+    assert_eq!(queen > four, true)
   }
 }
