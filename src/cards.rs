@@ -22,37 +22,37 @@ impl PartialEq for Card {
 
 impl Card {
   pub fn from(abbr: &str) -> Result<Card, String> {
-    if abbr.chars().count() > 1 {
+    if abbr.chars().count() == 2 {
       let r = &abbr[..1];
       let s = &abbr[1..];
-      // let card: Vec<&str> = abbr.split("").collect();
-      // let filtered = card.iter().filter(|&&x| x != "").collect::<Vec<&&str>>();
 
       let rank = match Rank::from(r) {
         Ok(rank) => rank,
-        Err(err) => panic!("{}", err),
+        Err(err) => return Err(err),
       };
       let suit = match Suit::from(s) {
         Ok(suit) => suit,
-        Err(err) => panic!("{}", err),
+        Err(err) => return Err(err),
       };
       Ok(Card {
         rank: Some(rank),
         suit: suit,
       })
-    } else {
+    } else if abbr.chars().count() == 1 {
       if abbr != "J" {
-        Err(format!("You must pass in both a rank and suit"))
+        Err(format!("Invalid rank/suit"))
       } else {
         let suit = match Suit::from(abbr) {
           Ok(suit) => suit,
-          Err(err) => panic!("{}", err),
+          Err(err) => return Err(err),
         };
         Ok(Card {
           rank: None,
           suit: suit,
         })
       }
+    } else {
+      Err(format!("Invalid amount of characters"))
     }
   }
 
@@ -96,7 +96,7 @@ mod card_tests {
 
   #[test]
   fn should_create_ten_of_diamonds() {
-    let card = Card::from("10D").unwrap();
+    let card = Card::from("TD").unwrap();
 
     let tod = Card {
       rank: Some(Rank::TEN),
