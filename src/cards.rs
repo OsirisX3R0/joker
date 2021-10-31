@@ -21,32 +21,37 @@ impl PartialEq for Card {
 }
 
 impl Card {
-  pub fn from(abbr: &str) -> Card {
+  pub fn from(abbr: &str) -> Result<Card, String> {
     if abbr.chars().count() > 1 {
-      let card: Vec<&str> = abbr.split("").collect();
-      let filtered = card.iter().filter(|&&x| x != "").collect::<Vec<&&str>>();
+      let r = &abbr[..1];
+      let s = &abbr[1..];
+      // let card: Vec<&str> = abbr.split("").collect();
+      // let filtered = card.iter().filter(|&&x| x != "").collect::<Vec<&&str>>();
 
-      let rank = match Rank::from(filtered[0]) {
+      let rank = match Rank::from(r) {
         Ok(rank) => rank,
         Err(err) => panic!("{}", err),
       };
-      let suit = match Suit::from(filtered[1]) {
+      let suit = match Suit::from(s) {
         Ok(suit) => suit,
         Err(err) => panic!("{}", err),
       };
-      // println!("{} {:?} {} {}", abbr, filtered, rank, suit);
-      Card {
+      Ok(Card {
         rank: Some(rank),
         suit: suit,
-      }
+      })
     } else {
-      let suit = match Suit::from(abbr) {
-        Ok(suit) => suit,
-        Err(err) => panic!("{}", err),
-      };
-      Card {
-        rank: None,
-        suit: suit,
+      if abbr != "J" {
+        Err(format!("You must pass in both a rank and suit"))
+      } else {
+        let suit = match Suit::from(abbr) {
+          Ok(suit) => suit,
+          Err(err) => panic!("{}", err),
+        };
+        Ok(Card {
+          rank: None,
+          suit: suit,
+        })
       }
     }
   }
@@ -67,7 +72,7 @@ mod card_tests {
 
   #[test]
   fn should_create_ace_of_spades() {
-    let card = Card::from("AS");
+    let card = Card::from("AS").unwrap();
 
     let aos = Card {
       rank: Some(Rank::ACE),
@@ -78,9 +83,45 @@ mod card_tests {
   }
 
   #[test]
+  fn should_create_four_of_clubs() {
+    let card = Card::from("4C").unwrap();
+
+    let foc = Card {
+      rank: Some(Rank::FOUR),
+      suit: Suit::CLUBS,
+    };
+
+    assert_eq!(card == foc, true)
+  }
+
+  #[test]
+  fn should_create_ten_of_diamonds() {
+    let card = Card::from("10D").unwrap();
+
+    let tod = Card {
+      rank: Some(Rank::TEN),
+      suit: Suit::DIAMONDS,
+    };
+
+    assert_eq!(card == tod, true)
+  }
+
+  #[test]
+  fn should_create_joker() {
+    let card = Card::from("J").unwrap();
+
+    let tod = Card {
+      rank: None,
+      suit: Suit::JOKER,
+    };
+
+    assert_eq!(card == tod, true)
+  }
+
+  #[test]
   #[should_panic]
   fn should_fail_invalid_card() {
-    let card = Card::from("XX");
+    let card = Card::from("XX").unwrap();
 
     println!("{}", card);
   }
