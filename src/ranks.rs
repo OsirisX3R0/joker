@@ -32,7 +32,7 @@ impl Display for Rank {
         Rank::SEVEN => "7",
         Rank::EIGHT => "8",
         Rank::NINE => "9",
-        Rank::TEN => "10",
+        Rank::TEN => "T",
         Rank::JACK => "J",
         Rank::QUEEN => "Q",
         Rank::KING => "K",
@@ -53,7 +53,7 @@ impl Rank {
       "7" => Ok(Rank::SEVEN),
       "8" => Ok(Rank::EIGHT),
       "9" => Ok(Rank::NINE),
-      "10" => Ok(Rank::TEN),
+      "T" => Ok(Rank::TEN),
       "J" => Ok(Rank::JACK),
       "Q" => Ok(Rank::QUEEN),
       "K" => Ok(Rank::KING),
@@ -111,7 +111,7 @@ mod rank_tests {
 
   #[test]
   fn should_be_less_than() {
-    let ten = Rank::from("10").unwrap();
+    let ten = Rank::from("T").unwrap();
     let jack = Rank::from("J").unwrap();
 
     assert_eq!(ten < jack, true)
