@@ -18,6 +18,10 @@ impl PartialEq for Card {
   fn eq(&self, other: &Self) -> bool {
     self.rank == other.rank && self.suit == other.suit
   }
+
+  fn ne(&self, other: &Self) -> bool {
+    self.rank != other.rank || self.suit != other.suit
+  }
 }
 
 impl Card {
