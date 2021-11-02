@@ -91,14 +91,14 @@ mod rank_tests {
   fn should_create_two_rank() {
     let rank = Rank::from("2").unwrap();
 
-    assert_eq!(rank == Rank::TWO, true);
+    assert_eq!(Rank::TWO, rank);
   }
 
   #[test]
   fn should_create_queen_rank() {
     let rank = Rank::from("Q").unwrap();
 
-    assert_eq!(rank == Rank::QUEEN, true);
+    assert_eq!(Rank::QUEEN, rank);
   }
 
   #[test]

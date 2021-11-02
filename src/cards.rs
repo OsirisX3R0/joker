@@ -4,7 +4,7 @@ use crate::ranks::Rank;
 use crate::suits::Suit;
 
 /// A card, composed of a suit and optional rank (Joker)
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct Card {
   rank: Option<Rank>,
   suit: Suit,
@@ -87,7 +87,7 @@ mod card_tests {
       suit: Suit::SPADES,
     };
 
-    assert_eq!(card == aos, true)
+    assert_eq!(aos, card)
   }
 
   #[test]
@@ -99,7 +99,7 @@ mod card_tests {
       suit: Suit::CLUBS,
     };
 
-    assert_eq!(card == foc, true)
+    assert_eq!(foc, card)
   }
 
   #[test]
@@ -111,7 +111,7 @@ mod card_tests {
       suit: Suit::DIAMONDS,
     };
 
-    assert_eq!(card == tod, true)
+    assert_eq!(tod, card)
   }
 
   #[test]
@@ -123,7 +123,7 @@ mod card_tests {
       suit: Suit::JOKER,
     };
 
-    assert_eq!(card == tod, true)
+    assert_eq!(tod, card)
   }
 
   #[test]

@@ -59,35 +59,35 @@ mod suit_tests {
   fn should_create_clubs_suit() {
     let suit = Suit::from("C").unwrap();
 
-    assert_eq!(suit == Suit::CLUBS, true);
+    assert_eq!(Suit::CLUBS, suit);
   }
 
   #[test]
   fn should_create_spades_suit() {
     let suit = Suit::from("S").unwrap();
 
-    assert_eq!(suit == Suit::SPADES, true);
+    assert_eq!(Suit::SPADES, suit);
   }
 
   #[test]
   fn should_create_hearts_suit() {
     let suit = Suit::from("H").unwrap();
 
-    assert_eq!(suit == Suit::HEARTS, true);
+    assert_eq!(Suit::HEARTS, suit);
   }
 
   #[test]
   fn should_create_diamond_suit() {
     let suit = Suit::from("D").unwrap();
 
-    assert_eq!(suit == Suit::DIAMONDS, true);
+    assert_eq!(Suit::DIAMONDS, suit);
   }
 
   #[test]
   fn should_create_joker_suit() {
     let suit = Suit::from("J").unwrap();
 
-    assert_eq!(suit == Suit::JOKER, true);
+    assert_eq!(Suit::JOKER, suit);
   }
 
   #[test]
