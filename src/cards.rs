@@ -12,7 +12,10 @@ pub struct Card {
 
 impl Display for Card {
   fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
-    write!(f, "{}", &self.to_string())
+    match &self.rank {
+      Some(rank) => write!(f, "{}{}", rank, &self.suit),
+      None => write!(f, "{}", &self.suit),
+    }
   }
 }
 
