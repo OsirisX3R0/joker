@@ -39,4 +39,12 @@ impl Pile {
   pub fn draw(&mut self) -> Card {
     self.cards.remove(0)
   }
+
+  /// Clears all cards from the pile
+  pub fn clear(&mut self) -> Vec<Card> {
+    let clone = self.cards.clone();
+    self.cards.clear();
+
+    clone
+  }
 }
