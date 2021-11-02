@@ -1,7 +1,8 @@
 use std::fmt::{Display, Error, Formatter};
+use strum_macros::EnumIter;
 
 /// All possible ranks for cards (Two through Ace, lowest to highest)
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, EnumIter)]
 pub enum Rank {
   TWO,
   THREE,

@@ -1,7 +1,8 @@
 use std::fmt::{Display, Error, Formatter};
+use strum_macros::EnumIter;
 
 /// All possible suits for cards (Clubs to Spades, Joker is highest)
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, EnumIter)]
 pub enum Suit {
   CLUBS,
   DIAMONDS,
