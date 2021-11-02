@@ -1,7 +1,7 @@
 use std::fmt::{Display, Error, Formatter};
 
-/// All possible suits for cards
-#[derive(Debug, PartialEq, PartialOrd)]
+/// All possible suits for cards (Clubs to Spades, Joker is highest)
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub enum Suit {
   CLUBS,
   DIAMONDS,
@@ -27,18 +27,18 @@ impl Display for Suit {
 }
 
 impl Suit {
+  /// Creates a suit from a character
   pub fn from(abbr: &str) -> Result<Suit, String> {
-    let suit = match abbr {
+    match abbr {
       "C" => Ok(Suit::CLUBS),
       "D" => Ok(Suit::DIAMONDS),
       "H" => Ok(Suit::HEARTS),
       "S" => Ok(Suit::SPADES),
       "J" => Ok(Suit::JOKER),
       &_ => Err(format!("{} is not a valid suit", abbr)),
-    };
-
-    suit
+    }
   }
+
   /// Translates a suit into a humanized string
   pub fn to_string(&self) -> &str {
     match &self {

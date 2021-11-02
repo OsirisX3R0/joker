@@ -1,7 +1,7 @@
 use std::fmt::{Display, Error, Formatter};
 
-/// All possible ranks for cards
-#[derive(Debug, PartialEq, PartialOrd)]
+/// All possible ranks for cards (Two through Ace, lowest to highest)
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub enum Rank {
   TWO,
   THREE,
@@ -43,8 +43,9 @@ impl Display for Rank {
 }
 
 impl Rank {
+  /// Creates a rank from a character
   pub fn from(abbr: &str) -> Result<Rank, String> {
-    let rank = match abbr {
+    match abbr {
       "2" => Ok(Rank::TWO),
       "3" => Ok(Rank::THREE),
       "4" => Ok(Rank::FOUR),
@@ -59,10 +60,9 @@ impl Rank {
       "K" => Ok(Rank::KING),
       "A" => Ok(Rank::ACE),
       &_ => Err(format!("{} is not a valid rank", abbr)),
-    };
-
-    rank
+    }
   }
+
   /// Translates a rank into a humanized string
   pub fn to_string(&self) -> &str {
     match &self {

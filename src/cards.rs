@@ -3,6 +3,8 @@ use std::fmt::{Display, Error, Formatter};
 use crate::ranks::Rank;
 use crate::suits::Suit;
 
+/// A card, composed of a suit and optional rank (Joker)
+#[derive(Clone, Copy)]
 pub struct Card {
   rank: Option<Rank>,
   suit: Suit,
@@ -25,6 +27,7 @@ impl PartialEq for Card {
 }
 
 impl Card {
+  /// Creates a card from a two-character string
   pub fn from(abbr: &str) -> Result<Card, String> {
     if abbr.chars().count() == 2 {
       let r = &abbr[..1];
@@ -60,6 +63,7 @@ impl Card {
     }
   }
 
+  /// Translates a card into a humanized string
   pub fn to_string(&self) -> String {
     let rank_str = match &self.rank {
       Some(rank) => rank.to_string(),
