@@ -12,7 +12,7 @@ impl Hand {
     Hand { cards: Vec::new() }
   }
 
-  /// Returns the cound of cards in the Hand
+  /// Returns the count of cards in the Hand
   pub fn count(&self) -> usize {
     self.cards.len()
   }
