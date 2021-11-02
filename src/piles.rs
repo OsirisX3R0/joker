@@ -3,42 +3,40 @@ use std::vec::Vec;
 
 use crate::cards::Card;
 
-pub struct Pile(Vec<Card>);
-
-// impl Iterator for Pile {
-//   type Item = Card;
-
-//   fn next(&mut self) -> Option<Self::Item> {}
-// }
+/// An ordered stack of cards that can only be accessed from the top
+pub struct Pile {
+  cards: Vec<Card>,
+}
 
 impl Pile {
+  /// Creates a new Pile
   pub fn new() -> Pile {
-    Pile(Vec::new())
+    Pile { cards: Vec::new() }
   }
 
+  /// Shuffles the cards contained in the pile
   pub fn shuffle(&mut self) {
-    let mut shuffled = Vec::new();
+    let mut shuffled = self.cards.clone();
     let mut rng = rand::thread_rng();
-    let mut currentIndex = self.0.len();
-    let mut indexes: Vec<usize> = (0..currentIndex).collect();
-    let mut randomIndex: usize;
+    let current_index = self.cards.len();
+    let mut indexes: Vec<usize> = (0..current_index).collect();
+    shuffled.clear();
+    indexes.shuffle(&mut rng);
 
-    while currentIndex != 0 {
-      indexes.shuffle(&mut rng);
-
-      for i in indexes {
-        shuffled.push(&self.0[i])
-      }
+    for i in indexes {
+      shuffled.push(self.cards[i])
     }
 
-    self.0 = shuffled;
+    self.cards = shuffled;
   }
 
+  /// Add a card to the top of the pile
   pub fn discard(&mut self, card: Card) {
-    self.0.push(card)
+    self.cards.insert(0, card)
   }
 
+  /// Take a card from the top of the pile
   pub fn draw(&mut self) -> Card {
-    self.0.remove(0)
+    self.cards.remove(0)
   }
 }
