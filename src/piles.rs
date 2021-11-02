@@ -2,11 +2,50 @@ use rand::seq::SliceRandom;
 use std::vec::Vec;
 
 use crate::cards::Card;
+use crate::decks;
 
 /// An ordered stack of cards that can only be accessed from the top
 #[derive(Debug, Clone)]
 pub struct Pile {
   cards: Vec<Card>,
+}
+
+impl PartialEq for Pile {
+  fn eq(&self, other: &Self) -> bool {
+    let mut equal = true;
+
+    if self.count() != other.count() {
+      return false;
+    }
+
+    for (i, card) in self.cards.iter().enumerate() {
+      if equal {
+        let other_card = other.cards[i];
+
+        equal = *card == other_card
+      }
+    }
+
+    equal
+  }
+
+  fn ne(&self, other: &Self) -> bool {
+    let mut equal = false;
+
+    if self.count() == other.count() {
+      return false;
+    }
+
+    for (i, card) in self.cards.iter().enumerate() {
+      if !equal {
+        let other_card = other.cards[i];
+
+        equal = *card != other_card
+      }
+    }
+
+    equal
+  }
 }
 
 impl Pile {
@@ -15,7 +54,7 @@ impl Pile {
     Pile { cards: Vec::new() }
   }
 
-  /// Returns the cound of cards in the Pile
+  /// Returns the count of cards in the Pile
   pub fn count(&self) -> usize {
     self.cards.len()
   }
@@ -54,5 +93,31 @@ impl Pile {
     self.cards.clear();
 
     clone
+  }
+}
+
+#[cfg(test)]
+mod pile_tests {
+  use super::*;
+
+  #[test]
+  fn should_create_new() {
+    let pile = Pile::new();
+
+    assert_eq!(pile, Pile { cards: Vec::new() })
+  }
+
+  #[test]
+  fn should_be_same() {
+    let pile1 = decks::standard_no_jokers(None);
+    let pile2 = decks::standard_no_jokers(None);
+    assert_eq!(pile1, pile2)
+  }
+
+  #[test]
+  fn should_shuffle() {
+    let pile1 = decks::standard_no_jokers(None);
+    let pile2 = decks::standard_no_jokers(None).shuffle();
+    assert_ne!(pile1, pile2)
   }
 }
