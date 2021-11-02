@@ -65,12 +65,12 @@ impl Card {
 
   /// Translates a card into a humanized string
   pub fn to_string(&self) -> String {
-    let rank_str = match &self.rank {
-      Some(rank) => rank.to_string(),
-      None => "",
+    let rank_str = match self.rank {
+      Some(rank) => format!("{} of ", rank.to_string()),
+      None => "".to_string(),
     };
     let suit_str = &self.suit.to_string();
-    format!("{} of {}", rank_str, suit_str)
+    format!("{}{}", rank_str, suit_str)
   }
 }
 
