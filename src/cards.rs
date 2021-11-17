@@ -4,7 +4,7 @@ use crate::ranks::Rank;
 use crate::suits::Suit;
 
 /// A card, composed of a suit and optional rank (Joker)
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct Card {
   rank: Option<Rank>,
   suit: Suit,
@@ -67,7 +67,7 @@ impl Card {
   }
 
   /// Translates a card into a humanized string
-  pub fn to_string(&self) -> String {
+  pub fn to_string(self) -> String {
     let rank_str = match self.rank {
       Some(rank) => format!("{} of ", rank.to_string()),
       None => "".to_string(),
@@ -86,7 +86,7 @@ mod card_tests {
     let card = Card::from("AS").unwrap();
 
     let aos = Card {
-      rank: Some(Rank::ACE),
+      rank: Some(Rank::FACE(String::from("A"))),
       suit: Suit::SPADES,
     };
 
@@ -98,7 +98,7 @@ mod card_tests {
     let card = Card::from("4C").unwrap();
 
     let foc = Card {
-      rank: Some(Rank::FOUR),
+      rank: Some(Rank::NUMBER(4)),
       suit: Suit::CLUBS,
     };
 
@@ -110,7 +110,7 @@ mod card_tests {
     let card = Card::from("TD").unwrap();
 
     let tod = Card {
-      rank: Some(Rank::TEN),
+      rank: Some(Rank::NUMBER(10)),
       suit: Suit::DIAMONDS,
     };
 

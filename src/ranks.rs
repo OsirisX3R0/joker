@@ -1,22 +1,12 @@
+use regex::Regex;
 use std::fmt::{Display, Error, Formatter};
 use strum_macros::EnumIter;
 
 /// All possible ranks for cards (Two through Ace, lowest to highest)
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, EnumIter)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, EnumIter)]
 pub enum Rank {
-  TWO,
-  THREE,
-  FOUR,
-  FIVE,
-  SIX,
-  SEVEN,
-  EIGHT,
-  NINE,
-  TEN,
-  JACK,
-  QUEEN,
-  KING,
-  ACE,
+  NUMBER(u8),
+  FACE(String),
 }
 
 impl Display for Rank {
@@ -25,19 +15,8 @@ impl Display for Rank {
       f,
       "{}",
       match &self {
-        Rank::TWO => "2",
-        Rank::THREE => "3",
-        Rank::FOUR => "4",
-        Rank::FIVE => "5",
-        Rank::SIX => "6",
-        Rank::SEVEN => "7",
-        Rank::EIGHT => "8",
-        Rank::NINE => "9",
-        Rank::TEN => "T",
-        Rank::JACK => "J",
-        Rank::QUEEN => "Q",
-        Rank::KING => "K",
-        Rank::ACE => "A",
+        Rank::NUMBER(num) => num.to_string(),
+        Rank::FACE(str) => String::from(str),
       }
     )
   }
@@ -46,41 +25,46 @@ impl Display for Rank {
 impl Rank {
   /// Creates a rank from a character
   pub fn from(abbr: &str) -> Result<Rank, String> {
-    match abbr {
-      "2" => Ok(Rank::TWO),
-      "3" => Ok(Rank::THREE),
-      "4" => Ok(Rank::FOUR),
-      "5" => Ok(Rank::FIVE),
-      "6" => Ok(Rank::SIX),
-      "7" => Ok(Rank::SEVEN),
-      "8" => Ok(Rank::EIGHT),
-      "9" => Ok(Rank::NINE),
-      "T" => Ok(Rank::TEN),
-      "J" => Ok(Rank::JACK),
-      "Q" => Ok(Rank::QUEEN),
-      "K" => Ok(Rank::KING),
-      "A" => Ok(Rank::ACE),
-      &_ => Err(format!("{} is not a valid rank", abbr)),
+    let is_number = Regex::new(r"[\dT]").unwrap();
+    let is_face = Regex::new(r"[JQKA]").unwrap();
+
+    if is_number.is_match(abbr) {
+      return match abbr {
+        "T" => Ok(Rank::NUMBER(10)),
+        other => Ok(Rank::NUMBER(other.parse::<u8>().unwrap())),
+      };
+    } else if is_face.is_match(abbr) {
+      Ok(Rank::FACE(String::from(abbr)))
+    } else {
+      Err(format!("{} is not a valid rank", abbr))
     }
   }
 
   /// Translates a rank into a humanized string
-  pub fn to_string(&self) -> &str {
-    match &self {
-      Rank::TWO => "Two",
-      Rank::THREE => "Three",
-      Rank::FOUR => "Four",
-      Rank::FIVE => "Five",
-      Rank::SIX => "Six",
-      Rank::SEVEN => "Seven",
-      Rank::EIGHT => "Eight",
-      Rank::NINE => "Nine",
-      Rank::TEN => "Ten",
-      Rank::JACK => "Jack",
-      Rank::QUEEN => "Queen",
-      Rank::KING => "King",
-      Rank::ACE => "Ace",
-    }
+  pub fn to_string(self) -> String {
+    let jack = String::from("J");
+    let queen = String::from("Q");
+    let king = String::from("K");
+    let ace = String::from("A");
+
+    let string = match self {
+      Rank::NUMBER(2) => "Two",
+      Rank::NUMBER(3) => "Three",
+      Rank::NUMBER(4) => "Four",
+      Rank::NUMBER(5) => "Five",
+      Rank::NUMBER(6) => "Six",
+      Rank::NUMBER(7) => "Seven",
+      Rank::NUMBER(8) => "Eight",
+      Rank::NUMBER(9) => "Nine",
+      Rank::NUMBER(10) => "Ten",
+      Rank::FACE(jack) => "Jack",
+      Rank::FACE(queen) => "Queen",
+      Rank::FACE(king) => "King",
+      Rank::FACE(ace) => "Ace",
+      _ => "",
+    };
+
+    String::from(string)
   }
 }
 
@@ -92,14 +76,14 @@ mod rank_tests {
   fn should_create_two_rank() {
     let rank = Rank::from("2").unwrap();
 
-    assert_eq!(Rank::TWO, rank);
+    assert_eq!(Rank::NUMBER(2), rank);
   }
 
   #[test]
   fn should_create_queen_rank() {
     let rank = Rank::from("Q").unwrap();
 
-    assert_eq!(Rank::QUEEN, rank);
+    assert_eq!(Rank::FACE(String::from("Q")), rank);
   }
 
   #[test]

@@ -8,5 +8,6 @@ edition = "2018"
 
 [dependencies]
 rand = "0.8.0"
+regex = "1.5"
 strum = "0.22"
 strum_macros = "0.22"
