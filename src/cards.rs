@@ -86,7 +86,7 @@ mod card_tests {
     let card = Card::from("AS").unwrap();
 
     let aos = Card {
-      rank: Some(Rank::FACE(String::from("A"))),
+      rank: Some(Rank::ACE),
       suit: Suit::SPADES,
     };
 

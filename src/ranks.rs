@@ -3,10 +3,13 @@ use std::fmt::{Display, Error, Formatter};
 use strum_macros::EnumIter;
 
 /// All possible ranks for cards (Two through Ace, lowest to highest)
-#[derive(Debug, Clone, PartialEq, PartialOrd, EnumIter)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, EnumIter)]
 pub enum Rank {
   NUMBER(u8),
-  FACE(String),
+  JACK,
+  QUEEN,
+  KING,
+  ACE,
 }
 
 impl Display for Rank {
@@ -16,7 +19,10 @@ impl Display for Rank {
       "{}",
       match &self {
         Rank::NUMBER(num) => num.to_string(),
-        Rank::FACE(str) => String::from(str),
+        Rank::JACK => "J".to_string(),
+        Rank::QUEEN => "Q".to_string(),
+        Rank::KING => "K".to_string(),
+        Rank::ACE => "A".to_string(),
       }
     )
   }
@@ -34,7 +40,13 @@ impl Rank {
         other => Ok(Rank::NUMBER(other.parse::<u8>().unwrap())),
       };
     } else if is_face.is_match(abbr) {
-      Ok(Rank::FACE(String::from(abbr)))
+      return match abbr {
+        "J" => Ok(Rank::JACK),
+        "Q" => Ok(Rank::QUEEN),
+        "K" => Ok(Rank::KING),
+        "A" => Ok(Rank::ACE),
+        &_ => Err(format!("{} is not a valid rank", abbr)),
+      };
     } else {
       Err(format!("{} is not a valid rank", abbr))
     }
@@ -57,10 +69,10 @@ impl Rank {
       Rank::NUMBER(8) => "Eight",
       Rank::NUMBER(9) => "Nine",
       Rank::NUMBER(10) => "Ten",
-      Rank::FACE(jack) => "Jack",
-      Rank::FACE(queen) => "Queen",
-      Rank::FACE(king) => "King",
-      Rank::FACE(ace) => "Ace",
+      Rank::JACK => "Jack",
+      Rank::QUEEN => "Queen",
+      Rank::KING => "King",
+      Rank::ACE => "Ace",
       _ => "",
     };
 
@@ -83,7 +95,7 @@ mod rank_tests {
   fn should_create_queen_rank() {
     let rank = Rank::from("Q").unwrap();
 
-    assert_eq!(Rank::FACE(String::from("Q")), rank);
+    assert_eq!(Rank::QUEEN, rank);
   }
 
   #[test]
