@@ -4,7 +4,7 @@ use crate::ranks::Rank;
 use crate::suits::Suit;
 
 /// A card, composed of a suit and optional rank (Joker)
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Card {
   rank: Option<Rank>,
   suit: Suit,
