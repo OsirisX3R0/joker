@@ -3,6 +3,22 @@ use std::fmt::{Display, Error, Formatter};
 use crate::ranks::Rank;
 use crate::suits::Suit;
 
+/// Adds a value to a card for comparison purposes
+pub trait CardValue {
+  /// Defines what value the Card should have
+  fn value(&self) -> u8;
+
+  /// Adds the value of the Card to another Card
+  fn add_value(&self, other: &Self) -> u8 {
+    self.value() + other.value()
+  }
+
+  /// Subtracts the value of the Card from another Card
+  fn sub_value(&self, other: &Self) -> u8 {
+    self.value() - other.value()
+  }
+}
+
 /// A card, composed of a suit and optional rank (Joker)
 #[derive(Debug, Clone, Copy)]
 pub struct Card {

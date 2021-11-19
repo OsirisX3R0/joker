@@ -6,6 +6,7 @@ mod ranks;
 mod suits;
 
 pub use cards::Card;
+pub use cards::CardValue;
 pub use decks::Deck;
 pub use hands::Hand;
 pub use piles::Pile;
