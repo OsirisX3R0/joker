@@ -54,11 +54,6 @@ impl Rank {
 
   /// Translates a rank into a humanized string
   pub fn to_string(self) -> String {
-    let jack = String::from("J");
-    let queen = String::from("Q");
-    let king = String::from("K");
-    let ace = String::from("A");
-
     let string = match self {
       Rank::NUMBER(2) => "Two",
       Rank::NUMBER(3) => "Three",

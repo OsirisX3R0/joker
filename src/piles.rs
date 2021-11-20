@@ -2,7 +2,6 @@ use rand::seq::SliceRandom;
 use std::vec::Vec;
 
 use crate::cards::Card;
-use crate::decks;
 
 /// An ordered stack of cards that can only be accessed from the top
 #[derive(Debug, Clone)]
@@ -99,6 +98,7 @@ impl Pile {
 #[cfg(test)]
 mod pile_tests {
   use super::*;
+  use crate::decks::Deck;
 
   #[test]
   fn should_create_new() {
@@ -109,15 +109,15 @@ mod pile_tests {
 
   #[test]
   fn should_be_same() {
-    let pile1 = decks::standard_no_jokers(None);
-    let pile2 = decks::standard_no_jokers(None);
+    let pile1 = Deck::generate_standard_deck(false, false);
+    let pile2 = Deck::generate_standard_deck(false, false);
     assert_eq!(pile1, pile2)
   }
 
   #[test]
   fn should_shuffle() {
-    let pile1 = decks::standard_no_jokers(None);
-    let pile2 = decks::standard_no_jokers(None).shuffle();
+    let pile1 = Deck::generate_standard_deck(false, false);
+    let pile2 = Deck::generate_standard_deck(false, true);
     assert_ne!(pile1, pile2)
   }
 }
