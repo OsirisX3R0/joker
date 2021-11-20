@@ -1,5 +1,6 @@
 use regex::Regex;
 use std::fmt::{Display, Error, Formatter};
+use std::vec::IntoIter;
 use strum_macros::EnumIter;
 
 /// All possible ranks for cards (Two through Ace, lowest to highest)
@@ -28,6 +29,27 @@ impl Display for Rank {
   }
 }
 
+// impl IntoIterator for Rank {
+//   type Item = Rank;
+//   type IntoIter = std::vec::IntoIter<Self::Item>;
+
+//   fn into_iter(self) -> Self::IntoIter {
+//     Rank::as_vector().into_iter()
+//   }
+// }
+
+// impl Iterator for Rank {
+//   type Item = Rank;
+
+//   fn next(&mut self) -> Option<Self::Item> {
+//     match self {
+//       NUMBER(num) => {
+
+//       }
+//     }
+//   }
+// }
+
 impl Rank {
   /// Creates a rank from a character
   pub fn from(abbr: &str) -> Result<Rank, String> {
@@ -50,6 +72,22 @@ impl Rank {
     } else {
       Err(format!("{} is not a valid rank", abbr))
     }
+  }
+
+  /// Generates a Vector from Rank variants
+  pub fn into_iter() -> IntoIter<Rank> {
+    let mut vec = Vec::new();
+    for i in 2..15 {
+      match i {
+        11 => vec.push(Rank::JACK),
+        12 => vec.push(Rank::QUEEN),
+        13 => vec.push(Rank::KING),
+        14 => vec.push(Rank::ACE),
+        num => vec.push(Rank::NUMBER(num)),
+      }
+    }
+
+    vec.into_iter()
   }
 
   /// Translates a rank into a humanized string

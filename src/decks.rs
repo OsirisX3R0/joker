@@ -25,14 +25,14 @@ impl Deck {
     for suit in Suit::iter() {
       match suit {
         Suit::JOKER => {
-          if jokers {
+          if !jokers {
             continue;
           }
           pile.stack(Card::from("J").unwrap());
           pile.stack(Card::from("J").unwrap());
         }
         _ => {
-          for rank in Rank::iter() {
+          for rank in Rank::into_iter() {
             let card_str = format!("{}{}", rank, suit);
             let card = Card::from(&card_str[..]).unwrap();
             pile.stack(card);
